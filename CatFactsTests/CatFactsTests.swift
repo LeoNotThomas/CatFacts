@@ -7,9 +7,12 @@
 
 import XCTest
 @testable import CatFacts
+import Combine
 
 final class CatFactsTests: XCTestCase {
-
+    
+    private var cancellables: Set<AnyCancellable> = []
+    
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.
     }
@@ -43,5 +46,42 @@ final class CatFactsTests: XCTestCase {
         components.path = endpoint.path
         // THEN
         XCTAssert(components.url?.absoluteString == "https://catfact.ninja/fact", "url string is invalid" )
+    }
+    
+    func testWhenCallerGivenCatFactThenCatFactListIsNotEmpty() {
+        // WHEN
+        var moc = MockApiCaller(callerType: .validCatFactResponse)
+        let fact = CatFact(fact: "Test", length: 4)
+        moc.returnValue = fact
+        let sut = CatFactsViewModel(apiCaller: moc)
+        
+        let expectation = XCTestExpectation(description: "Get Fact")
+        sut.next()
+        sut.$facts.dropFirst()
+            .sink { catfacts in
+                // THEN
+                XCTAssert(!catfacts.isEmpty)
+                expectation.fulfill()
+            }.store(in: &cancellables)
+        
+        wait(for: [expectation], timeout: 1)
+    }
+    
+    func testWhenCallerGivenErrorThenErrorIsFilled() {
+        // WHEN
+        var moc = MockApiCaller(callerType: .urlError)
+        let fact = CatFact(fact: "Test", length: 4)
+        moc.returnValue = fact
+        let sut = CatFactsViewModel(apiCaller: moc)
+        
+        let expectation = XCTestExpectation(description: "Get Fact")
+        sut.next()
+        sut.$showError.dropFirst()
+            .sink { error in
+                XCTAssert(error)
+                expectation.fulfill()
+            }.store(in: &cancellables)
+        
+        wait(for: [expectation], timeout: 1)
     }
 }

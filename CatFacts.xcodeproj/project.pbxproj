@@ -32,7 +32,7 @@
 		21A0310C2A7FF44F00E4CADF /* MockApiCaller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21A031002A7F9C3000E4CADF /* MockApiCaller.swift */; };
 		21A0310D2A7FF6FD00E4CADF /* CatFactsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21A0024F2A7BE48A00DDDE13 /* CatFactsViewModel.swift */; };
 		21A0310E2A7FF76F00E4CADF /* CatFactDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2116D2F22A7D287A0018830D /* CatFactDataManager.swift */; };
-		21A0310F2A7FF7F200E4CADF /* CatFacts.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 216A3CE92A7D216C004FD886 /* CatFacts.xcdatamodeld */; };
+		21A031102A80FE0000E4CADF /* CatFacts.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 216A3CE92A7D216C004FD886 /* CatFacts.xcdatamodeld */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -347,7 +347,7 @@
 				21A002492A7AAE8000DDDE13 /* Endpoint.swift in Sources */,
 				21A0024D2A7BE0DF00DDDE13 /* CatFact.swift in Sources */,
 				21A002482A7AAB4C00DDDE13 /* CatFact-Endpoint.swift in Sources */,
-				21A0310F2A7FF7F200E4CADF /* CatFacts.xcdatamodeld in Sources */,
+				21A031102A80FE0000E4CADF /* CatFacts.xcdatamodeld in Sources */,
 				21A0310D2A7FF6FD00E4CADF /* CatFactsViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
