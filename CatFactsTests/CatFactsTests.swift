@@ -78,7 +78,7 @@ final class CatFactsTests: XCTestCase {
         sut.next()
         sut.$showError.dropFirst()
             .sink { error in
-                XCTAssert(error)
+                XCTAssertTrue(error)
                 expectation.fulfill()
             }.store(in: &cancellables)
         
