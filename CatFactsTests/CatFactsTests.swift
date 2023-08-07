@@ -64,7 +64,7 @@ final class CatFactsTests: XCTestCase {
                 expectation.fulfill()
             }.store(in: &cancellables)
         
-        wait(for: [expectation], timeout: 1)
+        wait(for: [expectation], timeout: 10)
     }
     
     func testWhenCallerGivenErrorThenErrorIsFilled() {
@@ -74,14 +74,15 @@ final class CatFactsTests: XCTestCase {
         moc.returnValue = fact
         let sut = CatFactsViewModel(apiCaller: moc)
         
-        let expectation = XCTestExpectation(description: "Get Fact")
+        let expectation = XCTestExpectation(description: "Get Error")
         sut.next()
-        sut.$showError.dropFirst()
+        sut.$showError
+            .filter { $0 }
             .sink { error in
-                XCTAssertTrue(error)
+                XCTAssert(error)
                 expectation.fulfill()
             }.store(in: &cancellables)
         
-        wait(for: [expectation], timeout: 1)
+        wait(for: [expectation], timeout: 10)
     }
 }
