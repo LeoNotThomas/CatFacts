@@ -8,7 +8,11 @@
 import Foundation
 
 // MARK: - CatFact
-struct CatFact: Codable {
+struct CatFact: Codable, Equatable {
     let fact: String
     let length: Int
+    
+    static func == (lhs: Self, rhs: Self) -> Bool {
+        lhs.fact == rhs.fact && lhs.length == rhs.length
+    }
 }

@@ -33,12 +33,15 @@ final class CatFactsTests: XCTestCase {
         }
     }
     
-    func testWhenGivenCatFactsEndPointThenUrlCatFact() {
+    func testWhenURLComponentGivenCatFactsEndPointThenUrlCatFact() {
+        // WHEN
         var components = URLComponents()
+        // GIVEN
         let endpoint = CatEndpoint.catFacts
         components.scheme = endpoint.scheme
         components.host = endpoint.baseUrl
         components.path = endpoint.path
+        // THEN
         XCTAssert(components.url?.absoluteString == "https://catfact.ninja/fact", "url string is invalid" )
     }
 }

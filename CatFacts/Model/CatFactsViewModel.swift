@@ -22,8 +22,10 @@ class CatFactsViewModel: ObservableObject {
     private(set) var errorMessage = ""
     private let manager = CatFactDataManager.shared
     private var cancelables = Set<AnyCancellable>()
+    private var apiCaller: APIClientProtocol
     
-    init() {
+    init(apiCaller: APIClientProtocol) {
+        self.apiCaller = apiCaller
         setupBindings()
     }
     
@@ -52,7 +54,7 @@ class CatFactsViewModel: ObservableObject {
     }
     
     func next() {
-        manager.getFact()
+        manager.getFact(caller: apiCaller)
     }
 }
 
@@ -68,8 +70,4 @@ struct CatFactViewModel: Equatable, Identifiable {
         self.length = fact.length
         self.saveDate = .now
     }
-    
-//    static func == (lhs: Self, rhs: Self) -> Bool {
-//        return lhs.saveDate == rhs.saveDate
-//    }
 }

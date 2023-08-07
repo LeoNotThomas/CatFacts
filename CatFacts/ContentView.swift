@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ContentView: View {
-    @ObservedObject private var model = CatFactsViewModel()
+    @ObservedObject private var model = CatFactsViewModel(apiCaller: APICaller())
     var body: some View {
         NavigationView {
             ScrollViewReader { proxy in

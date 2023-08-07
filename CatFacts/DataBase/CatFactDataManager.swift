@@ -13,14 +13,11 @@ class CatFactDataManager: ObservableObject {
     
     @Published private(set) var data: CatFact?
     @Published private(set) var error: Error?
-    func getFact() {
-        let caller = APICaller()
+    func getFact(caller: APIClientProtocol) {
         Task {
             do {
                 let fact = try await caller.fetch(CatFact.self, endpoint: CatEndpoint.catFacts)
-                DispatchQueue.main.async {
-                    self.data = fact
-                }
+                self.data = fact
             } catch {
                 self.error = error
             }
