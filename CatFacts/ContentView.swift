@@ -32,10 +32,14 @@ struct ContentView: View {
                 .toolbar {
                     ToolbarItem(placement: .navigationBarTrailing) {
                         NavigationLink("Saved Data") {
+                            // only implemented to show a second way
                             SavedCatFactsView()
                                 .environment(\.managedObjectContext, CatFactDataManager.shared.container.viewContext)
                         }
                     }
+                }
+                .onAppear {
+                    model.getFacts()
                 }
             }
         }

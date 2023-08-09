@@ -11,12 +11,7 @@ import SwiftUI
 import CoreData
 
 class CatFactsViewModel: ObservableObject {
-    @Published private(set) var currentFact = CatFactViewModel(CatFact(fact: "No Fact Loaded", length: 0)) {
-        didSet {
-            facts.insert(currentFact, at: 0)
-            manager.save(self.currentFact)
-        }
-    }
+    @Published private(set) var currentFact = CatFactViewModel(CatFact(fact: "No Fact Loaded", length: 0))
     @Published private(set) var facts = [CatFactViewModel]()
     @Published var showError = false
     private(set) var errorMessage = ""
@@ -51,10 +46,28 @@ class CatFactsViewModel: ObservableObject {
                 self.showError = true
             }
             .store(in: &cancelables)
+        manager.$factsEntities
+            .sink { entities in
+                guard !entities.isEmpty else {
+                    return
+                }
+                var saveFacts = [CatFactViewModel]()
+                for entity in entities {
+                    saveFacts.append(CatFactViewModel(fact: entity))
+                }
+                DispatchQueue.main.async {
+                    self.facts = saveFacts
+                }
+            }
+            .store(in: &cancelables)
     }
     
     func next() {
         manager.getFact(caller: apiCaller)
+    }
+    
+    func getFacts() {
+        manager.getCatFacts()
     }
 }
 
@@ -69,5 +82,12 @@ struct CatFactViewModel: Equatable, Identifiable {
         self.fact = fact.fact
         self.length = fact.length
         self.saveDate = .now
+    }
+    
+    init(fact: CatFactEntity) {
+        self.id = fact.id!
+        self.fact = fact.fact!
+        self.length = Int(fact.length)
+        self.saveDate = fact.saveDate!
     }
 }

@@ -13,26 +13,7 @@ class CatFactDataManager: ObservableObject {
     
     @Published private(set) var data: CatFact?
     @Published private(set) var error: Error?
-    func getFact(caller: APIClientProtocol) {
-        Task {
-            do {
-                let fact = try await caller.fetch(CatFact.self, endpoint: CatEndpoint.catFacts)
-                self.data = fact
-            } catch {
-                self.error = error
-            }
-        }
-    }
-    
-    func save(_ fact: CatFactViewModel) {
-        let entity = CatFactEntity(context: self.container.viewContext)
-        entity.id = fact.id
-        entity.fact = fact.fact
-        entity.length = Int16(fact.length)
-        entity.saveDate = fact.saveDate
-        
-        try? self.container.viewContext.save()
-    }
+    @Published private(set) var factsEntities = [CatFactEntity]()
     
     let container = NSPersistentContainer(name: "CatFacts")
     private init() {
@@ -40,6 +21,40 @@ class CatFactDataManager: ObservableObject {
             if let error = error {
                 print("CoreData failed to load \(error.localizedDescription)")
             }
+        }
+    }
+    private func saveEntity(_ fact: CatFact) -> CatFactEntity {
+        let entity = CatFactEntity(context: CatFactDataManager.shared.container.viewContext)
+        entity.id = UUID()
+        entity.fact = fact.fact
+        entity.length = Int16(fact.length)
+        entity.saveDate = .now
+        try? self.container.viewContext.save()
+        return entity
+    }
+    
+    func getFact(caller: APIClientProtocol) {
+        Task {
+            do {
+                let fact = try await caller.fetch(CatFact.self, endpoint: CatEndpoint.catFacts)
+                self.data = fact
+                self.factsEntities.insert(saveEntity(fact), at: 0)
+            } catch {
+                self.error = error
+            }
+        }
+    }
+    
+    func getCatFacts() {
+        let fetch = CatFactEntity.fetchRequest()
+        let sortDescriptor = NSSortDescriptor(key: #keyPath(CatFactEntity.saveDate), ascending: false)
+        fetch.sortDescriptors = [sortDescriptor]
+        do {
+            let managedContext = self.container.viewContext
+            let results = try managedContext.fetch(fetch)
+            factsEntities = results
+        } catch let error as NSError {
+            print("Fetch error: \(error) description: \(error.userInfo)")
         }
     }
 }
