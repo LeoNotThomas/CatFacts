@@ -6,7 +6,6 @@
 //
 
 import CoreData
-import Foundation
 
 class CatFactDataManager: ObservableObject {
     static let shared = CatFactDataManager()

@@ -7,8 +7,6 @@
 
 import Foundation
 import Combine
-import SwiftUI
-import CoreData
 
 class CatFactsViewModel: ObservableObject {
     @Published private(set) var currentFact = CatFactViewModel(CatFact(fact: "No Fact Loaded", length: 0))
