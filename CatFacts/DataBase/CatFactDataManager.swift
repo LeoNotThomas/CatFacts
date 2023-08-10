@@ -54,7 +54,7 @@ class CatFactDataManager: ObservableObject {
             let results = try managedContext.fetch(fetch)
             factsEntities = results
         } catch let error as NSError {
-            print("Fetch error: \(error) description: \(error.userInfo)")
+            self.error = error
         }
     }
 }
