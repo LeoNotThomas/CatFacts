@@ -57,4 +57,11 @@ class CatFactDataManager: ObservableObject {
             self.error = error
         }
     }
+    
+    func delete(row: Int) {
+        let managedContext = self.container.viewContext
+        let fact = factsEntities.remove(at: row)
+        managedContext.delete(fact)
+        try? managedContext.save()
+    }
 }

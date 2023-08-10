@@ -69,6 +69,12 @@ class CatFactsViewModel: ObservableObject {
     func getFacts() {
         manager.getCatFacts()
     }
+    
+    func deleteFact(on: IndexSet) {
+        for index in on {
+            manager.delete(row: index)
+        }
+    }
 }
 
 struct CatFactViewModel: Equatable, Identifiable {

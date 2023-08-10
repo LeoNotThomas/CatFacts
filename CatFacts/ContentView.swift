@@ -25,6 +25,7 @@ struct ContentView: View {
                         ForEach(model.facts) { fact in
                             Text(fact.fact)
                         }
+                        .onDelete(perform: delete)
                     }
                 }
                 .padding()
@@ -44,6 +45,10 @@ struct ContentView: View {
             }
         }
         .navigationViewStyle(StackNavigationViewStyle())
+    }
+    
+    private func delete(at offsets: IndexSet) {
+        model.deleteFact(on: offsets)
     }
 }
 
