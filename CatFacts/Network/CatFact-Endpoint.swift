@@ -8,17 +8,17 @@
 import Foundation
 
 enum CatEndpoint: Endpoint {
-    case catFacts
+    case catFact
     var method: String {
         switch self {
-        case .catFacts:
+        case .catFact:
             return HTTPMethod.get.rawValue
         }
     }
     
     var scheme: String {
         switch self {
-        case .catFacts:
+        case .catFact:
             return HTTPSchema.https.rawValue
         }
     }
@@ -29,7 +29,7 @@ enum CatEndpoint: Endpoint {
     
     var path: String {
         switch self {
-        case .catFacts:
+        case .catFact:
             return NetworkPaths.catFactsPath.rawValue
         }
     }

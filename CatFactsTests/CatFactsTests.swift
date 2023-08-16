@@ -25,7 +25,7 @@ final class CatFactsTests: XCTestCase {
         // WHEN
         var components = URLComponents()
         // GIVEN
-        let endpoint = CatEndpoint.catFacts
+        let endpoint = CatEndpoint.catFact
         components.scheme = endpoint.scheme
         components.host = endpoint.baseUrl
         components.path = endpoint.path
@@ -35,7 +35,7 @@ final class CatFactsTests: XCTestCase {
     
     func testWhenCallerGivenCatFactThenCatFactListIsNotEmpty() {
         // WHEN
-        var moc = MockApiCaller(callerType: .validCatFactResponse)
+        let moc = MockApiCaller(callerType: .validCatFactResponse)
         let sut = CatFactsViewModel(apiCaller: moc)
         
         let expectation = XCTestExpectation(description: "Get Fact")
@@ -52,7 +52,7 @@ final class CatFactsTests: XCTestCase {
     
     func testWhenCallerGivenErrorThenErrorIsFilled() {
         // WHEN
-        var moc = MockApiCaller(callerType: .urlError)
+        let moc = MockApiCaller(callerType: .urlError)
         let sut = CatFactsViewModel(apiCaller: moc)
         
         let expectation = XCTestExpectation(description: "Get Error")
@@ -60,6 +60,7 @@ final class CatFactsTests: XCTestCase {
         sut.$showError
             .filter { $0 }
             .sink { error in
+                // THEN
                 XCTAssert(error)
                 expectation.fulfill()
             }.store(in: &cancellables)

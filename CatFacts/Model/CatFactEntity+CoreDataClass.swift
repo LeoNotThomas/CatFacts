@@ -24,6 +24,4 @@ public class CatFactEntity: NSManagedObject, Decodable {
         id = UUID()
         saveDate = .now
     }
-    
-
 }

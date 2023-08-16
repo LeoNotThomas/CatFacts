@@ -11,7 +11,6 @@ import CoreData
 
 
 extension CatFactEntity {
-
     @nonobjc public class func fetchRequest() -> NSFetchRequest<CatFactEntity> {
         return NSFetchRequest<CatFactEntity>(entityName: "CatFactEntity")
     }
@@ -20,9 +19,8 @@ extension CatFactEntity {
     @NSManaged public var id: UUID?
     @NSManaged public var length: Int16
     @NSManaged public var saveDate: Date?
-
 }
 
-extension CatFactEntity : Identifiable {
+extension CatFactEntity: Identifiable {
 
 }

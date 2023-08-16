@@ -26,7 +26,7 @@ class CatFactDataManager: ObservableObject {
     func getFact(caller: APIClientProtocol) {
         Task {
             do {
-                let fact = try await caller.fetch(CatFactEntity.self, endpoint: CatEndpoint.catFacts)
+                let fact = try await caller.fetch(CatFactEntity.self, endpoint: CatEndpoint.catFact)
                 self.data = fact
                 self.factsEntities.insert(fact, at: 0)
                 try? self.container.viewContext.save()

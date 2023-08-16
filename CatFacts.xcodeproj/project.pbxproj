@@ -115,8 +115,6 @@
 		21A002082A7A97AB00DDDE13 = {
 			isa = PBXGroup;
 			children = (
-				21D585B12A8D1834000ECF38 /* CatFactEntity+CoreDataClass.swift */,
-				21D585B22A8D1834000ECF38 /* CatFactEntity+CoreDataProperties.swift */,
 				21A002132A7A97AB00DDDE13 /* CatFacts */,
 				21A002242A7A97AC00DDDE13 /* CatFactsTests */,
 				21A0022E2A7A97AC00DDDE13 /* CatFactsUITests */,
@@ -179,6 +177,8 @@
 			isa = PBXGroup;
 			children = (
 				21A0024F2A7BE48A00DDDE13 /* CatFactsViewModel.swift */,
+				21D585B12A8D1834000ECF38 /* CatFactEntity+CoreDataClass.swift */,
+				21D585B22A8D1834000ECF38 /* CatFactEntity+CoreDataProperties.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
