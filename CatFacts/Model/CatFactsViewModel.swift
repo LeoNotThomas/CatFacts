@@ -9,7 +9,7 @@ import Foundation
 import Combine
 
 class CatFactsViewModel: ObservableObject {
-    @Published private(set) var currentFact = CatFactViewModel(CatFact(fact: "No Fact Loaded", length: 0))
+    @Published private(set) var currentFact: CatFactViewModel?
     @Published private(set) var facts = [CatFactViewModel]()
     @Published var showError = false
     private(set) var errorMessage = ""
@@ -29,7 +29,7 @@ class CatFactsViewModel: ObservableObject {
                 guard let data = data else {
                     return
                 }
-                self.currentFact = CatFactViewModel(data)
+                self.currentFact = CatFactViewModel(fact: data)
                 self.showError = false
             }
             .store(in: &cancelables)
@@ -80,13 +80,6 @@ struct CatFactViewModel: Equatable, Identifiable {
     var fact: String
     var length: Int
     var saveDate: Date
-    
-    init(_ fact: CatFact) {
-        self.id = UUID()
-        self.fact = fact.fact
-        self.length = fact.length
-        self.saveDate = .now
-    }
     
     init(fact: CatFactEntity) {
         self.id = fact.id!

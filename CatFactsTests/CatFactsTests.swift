@@ -36,8 +36,6 @@ final class CatFactsTests: XCTestCase {
     func testWhenCallerGivenCatFactThenCatFactListIsNotEmpty() {
         // WHEN
         var moc = MockApiCaller(callerType: .validCatFactResponse)
-        let fact = CatFact(fact: "Test", length: 4)
-        moc.returnValue = fact
         let sut = CatFactsViewModel(apiCaller: moc)
         
         let expectation = XCTestExpectation(description: "Get Fact")
@@ -55,8 +53,6 @@ final class CatFactsTests: XCTestCase {
     func testWhenCallerGivenErrorThenErrorIsFilled() {
         // WHEN
         var moc = MockApiCaller(callerType: .urlError)
-        let fact = CatFact(fact: "Test", length: 4)
-        moc.returnValue = fact
         let sut = CatFactsViewModel(apiCaller: moc)
         
         let expectation = XCTestExpectation(description: "Get Error")

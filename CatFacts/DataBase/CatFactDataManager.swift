@@ -10,7 +10,7 @@ import CoreData
 class CatFactDataManager: ObservableObject {
     static let shared = CatFactDataManager()
     
-    @Published private(set) var data: CatFact?
+    @Published private(set) var data: CatFactEntity?
     @Published private(set) var error: Error?
     @Published private(set) var factsEntities = [CatFactEntity]()
     
@@ -22,22 +22,14 @@ class CatFactDataManager: ObservableObject {
             }
         }
     }
-    private func saveEntity(_ fact: CatFact) -> CatFactEntity {
-        let entity = CatFactEntity(context: CatFactDataManager.shared.container.viewContext)
-        entity.id = UUID()
-        entity.fact = fact.fact
-        entity.length = Int16(fact.length)
-        entity.saveDate = .now
-        try? self.container.viewContext.save()
-        return entity
-    }
     
     func getFact(caller: APIClientProtocol) {
         Task {
             do {
-                let fact = try await caller.fetch(CatFact.self, endpoint: CatEndpoint.catFacts)
+                let fact = try await caller.fetch(CatFactEntity.self, endpoint: CatEndpoint.catFacts)
                 self.data = fact
-                self.factsEntities.insert(saveEntity(fact), at: 0)
+                self.factsEntities.insert(fact, at: 0)
+                try? self.container.viewContext.save()
             } catch {
                 self.error = error
             }
