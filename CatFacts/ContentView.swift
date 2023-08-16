@@ -60,7 +60,7 @@ private struct NewFactView: View {
                 .imageScale(.large)
                 .foregroundColor(.accentColor)
             Spacer()
-            Text(model.currentFact.fact)
+            Text(model.currentFact?.fact ?? "")
                 .lineLimit(1)
                 .frame(maxWidth: .infinity, alignment: .leading)
             Spacer()

@@ -15,11 +15,11 @@ enum MockApiCallerType {
 
 protocol MockApiCallerProtocol: AnyObject {
     var callerType: MockApiCallerType { get }
-    var returnValue: Any? { get set }
+    var returnValue: Any { get }
 }
 
 struct MockApiCaller: APIClientProtocol {
-    var returnValue: Any?
+    var returnValue: CatFactEntity
     var callerType: MockApiCallerType
     
     func fetch<T>(_ type: T.Type, endpoint: Endpoint) async throws -> T where T : Decodable {
@@ -35,6 +35,12 @@ struct MockApiCaller: APIClientProtocol {
     
     init(callerType: MockApiCallerType) {
         self.callerType = callerType
+        let fact = CatFactEntity(context: CatFactDataManager.shared.container.viewContext)
+        fact.fact = "Test"
+        fact.length = 4
+        fact.id = UUID()
+        fact.saveDate = .now
+        self.returnValue = fact
     }
     
     static func viewModel(moc: MockApiCaller) -> CatFactsViewModel {
