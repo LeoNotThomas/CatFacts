@@ -55,4 +55,13 @@ class CatFactDataManager: ObservableObject {
         managedContext.delete(fact)
         try? managedContext.save()
     }
+    
+    func removeAll() {
+        let managedContext = self.container.viewContext
+        for fact in factsEntities {
+            managedContext.delete(fact)
+        }
+        factsEntities.removeAll()
+        try? managedContext.save()
+    }
 }

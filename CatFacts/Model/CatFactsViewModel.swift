@@ -45,17 +45,13 @@ class CatFactsViewModel: ObservableObject {
             }
             .store(in: &cancelables)
         manager.$factsEntities
+            .receive(on: DispatchQueue.main)
             .sink { entities in
-                guard !entities.isEmpty else {
-                    return
-                }
                 var saveFacts = [CatFactViewModel]()
                 for entity in entities {
                     saveFacts.append(CatFactViewModel(fact: entity))
                 }
-                DispatchQueue.main.async {
-                    self.facts = saveFacts
-                }
+                self.facts = saveFacts
             }
             .store(in: &cancelables)
     }
@@ -72,6 +68,10 @@ class CatFactsViewModel: ObservableObject {
         for index in on {
             manager.delete(row: index)
         }
+    }
+    
+    func removeAll() {
+        manager.removeAll()
     }
 }
 

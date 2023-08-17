@@ -11,37 +11,38 @@ struct ContentView: View {
     @ObservedObject private var model = CatFactsViewModel(apiCaller: APICaller())
     var body: some View {
         NavigationView {
-            ScrollViewReader { proxy in
-                List {
-                    Section("New Fact") {
-                        NewFactView(model: model)
-                    }
-                    .alert("Error", isPresented: $model.showError) {
-                        // no actions required
-                    } message: {
-                        Text(model.errorMessage)
-                    }
-                    Section("Fact List") {
-                        ForEach(model.facts) { fact in
+            List {
+                Section("New Fact") {
+                    NewFactView(model: model)
+                }
+                .alert("Error", isPresented: $model.showError) {
+                    // no actions required
+                } message: {
+                    Text(model.errorMessage)
+                }
+                Section("Fact List") {
+                    ForEach(model.facts) { fact in
                             Text(fact.fact)
-                        }
-                        .onDelete(perform: delete)
+                    }
+                    .onDelete(perform: delete)
+                }
+            }
+            .padding()
+            .navigationTitle("CatFact")
+            .toolbar {
+                ToolbarItemGroup(placement: .navigationBarTrailing) {
+                    NavigationLink("Saved Data") {
+                        // only implemented to show a second way
+                        SavedCatFactsView()
+                            .environment(\.managedObjectContext, CatFactDataManager.shared.container.viewContext)
+                    }
+                    Button("Delete All") {
+                        model.removeAll()
                     }
                 }
-                .padding()
-                .navigationTitle("CatFact")
-                .toolbar {
-                    ToolbarItem(placement: .navigationBarTrailing) {
-                        NavigationLink("Saved Data") {
-                            // only implemented to show a second way
-                            SavedCatFactsView()
-                                .environment(\.managedObjectContext, CatFactDataManager.shared.container.viewContext)
-                        }
-                    }
-                }
-                .onAppear {
-                    model.getFacts()
-                }
+            }
+            .onAppear {
+                model.getFacts()
             }
         }
         .navigationViewStyle(StackNavigationViewStyle())

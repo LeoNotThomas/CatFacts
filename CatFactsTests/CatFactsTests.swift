@@ -40,7 +40,9 @@ final class CatFactsTests: XCTestCase {
         
         let expectation = XCTestExpectation(description: "Get Fact")
         sut.next()
-        sut.$facts.dropFirst()
+        sut.$facts
+            .receive(on: RunLoop.main)
+            .dropFirst()
             .sink { catfacts in
                 // THEN
                 XCTAssert(!catfacts.isEmpty)
