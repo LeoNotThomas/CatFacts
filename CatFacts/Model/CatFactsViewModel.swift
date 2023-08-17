@@ -45,6 +45,7 @@ class CatFactsViewModel: ObservableObject {
             }
             .store(in: &cancelables)
         manager.$factsEntities
+            .receive(on: DispatchQueue.main)
             .sink { entities in
                 guard !entities.isEmpty else {
                     return
@@ -53,9 +54,7 @@ class CatFactsViewModel: ObservableObject {
                 for entity in entities {
                     saveFacts.append(CatFactViewModel(fact: entity))
                 }
-                DispatchQueue.main.async {
-                    self.facts = saveFacts
-                }
+                self.facts = saveFacts
             }
             .store(in: &cancelables)
     }
