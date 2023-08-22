@@ -19,6 +19,17 @@ extension CatFactEntity {
     @NSManaged public var id: UUID?
     @NSManaged public var length: Int16
     @NSManaged public var saveDate: Date?
+    
+    static public func initWith(fact: String, length: Int16, insertInto: Bool = false) -> CatFactEntity {
+        let entity = NSEntityDescription.entity(forEntityName: "CatFactEntity", in: CatFactDataManager.shared.container.viewContext)
+        let factEntity = CatFactEntity(entity: entity!, insertInto: insertInto == true ? CatFactDataManager.shared.container.viewContext : nil)
+        factEntity.fact = fact
+        factEntity.length = Int16(fact.count)
+        factEntity.id = UUID()
+        factEntity.saveDate = .now
+        return factEntity
+    }
+
 }
 
 extension CatFactEntity: Identifiable {

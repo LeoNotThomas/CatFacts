@@ -35,11 +35,7 @@ struct MockApiCaller: APIClientProtocol {
     
     init(callerType: MockApiCallerType) {
         self.callerType = callerType
-        let fact = CatFactEntity(context: CatFactDataManager.shared.container.viewContext)
-        fact.fact = "Test"
-        fact.length = 4
-        fact.id = UUID()
-        fact.saveDate = .now
+        let fact = CatFactEntity.initWith(fact: "Test", length: 4)
         self.returnValue = fact
     }
     

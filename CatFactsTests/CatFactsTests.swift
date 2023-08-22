@@ -12,6 +12,10 @@ import Combine
 final class CatFactsTests: XCTestCase {
     
     private var cancellables: Set<AnyCancellable> = []
+    private var caller: MockApiCaller!
+    private var sut: CatFactsViewModel! {
+        CatFactsViewModel(apiCaller: caller)
+    }
     
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.
@@ -35,8 +39,7 @@ final class CatFactsTests: XCTestCase {
     
     func testWhenCallerGivenCatFactThenCatFactListIsNotEmpty() {
         // WHEN
-        let moc = MockApiCaller(callerType: .validCatFactResponse)
-        let sut = CatFactsViewModel(apiCaller: moc)
+        caller = MockApiCaller(callerType: .validCatFactResponse)
         
         let expectation = XCTestExpectation(description: "Get Fact")
         sut.next()
@@ -52,8 +55,7 @@ final class CatFactsTests: XCTestCase {
     
     func testWhenCallerGivenErrorThenErrorIsFilled() {
         // WHEN
-        let moc = MockApiCaller(callerType: .urlError)
-        let sut = CatFactsViewModel(apiCaller: moc)
+        caller = MockApiCaller(callerType: .urlError)
         
         let expectation = XCTestExpectation(description: "Get Error")
         sut.next()
