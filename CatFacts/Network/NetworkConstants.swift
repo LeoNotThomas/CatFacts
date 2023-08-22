@@ -25,7 +25,7 @@ enum NetworkParts: String {
 }
 
 enum NetworkPaths: String {
-    case catFactsPath = "/fact"
+    case catFactPath = "/fact"
 }
 
 enum NetworkError: Error {

@@ -10,17 +10,11 @@ import Foundation
 enum CatEndpoint: Endpoint {
     case catFact
     var method: String {
-        switch self {
-        case .catFact:
-            return HTTPMethod.get.rawValue
-        }
+        HTTPMethod.get.rawValue
     }
     
     var scheme: String {
-        switch self {
-        case .catFact:
-            return HTTPSchema.https.rawValue
-        }
+        HTTPSchema.https.rawValue
     }
     
     var baseUrl: String {
@@ -30,7 +24,7 @@ enum CatEndpoint: Endpoint {
     var path: String {
         switch self {
         case .catFact:
-            return NetworkPaths.catFactsPath.rawValue
+            return NetworkPaths.catFactPath.rawValue
         }
     }
     
